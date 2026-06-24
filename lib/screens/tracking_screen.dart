@@ -8,7 +8,7 @@ import '../widgets/glass_card.dart';
 import '../widgets/custom_button.dart';
 
 class TrackingScreen extends StatelessWidget {
-  const TrackingScreen({Key? key}) : super(key: key);
+  const TrackingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class TrackingScreen extends StatelessWidget {
                         height: 40,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.5),
+                            color: AppColors.primary.withValues(alpha: 0.5),
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: AppColors.primary,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import '../models/destination.dart';
@@ -27,7 +28,7 @@ class LocationService {
     }
 
     return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
   }
 
@@ -48,7 +49,7 @@ class LocationService {
         return data.map((json) => Destination.fromJson(json)).toList();
       }
     } catch (e) {
-      print('Error fetching destinations: $e');
+      debugPrint('Error fetching destinations: $e');
     }
     return [];
   }

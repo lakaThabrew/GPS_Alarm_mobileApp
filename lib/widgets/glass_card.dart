@@ -10,13 +10,13 @@ class GlassCard extends StatelessWidget {
   final double borderRadius;
 
   const GlassCard({
-    Key? key,
+    super.key,
     required this.child,
     this.width,
     this.height,
     this.padding = const EdgeInsets.all(16.0),
     this.borderRadius = 16.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class GlassCard extends StatelessWidget {
             border: Border.all(color: AppColors.glassBorder, width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 10,
                 spreadRadius: 2,
               )
