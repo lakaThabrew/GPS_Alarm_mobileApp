@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import '../providers/auth_provider.dart';
 import '../utils/constants.dart';
 import '../widgets/glass_card.dart';
@@ -70,47 +72,55 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: AppColors.backgroundDark,
       body: Stack(
         children: [
-          // Background graphic
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.accent.withValues(alpha: 0.2),
-              ),
+          // Static Map Background
+          FlutterMap(
+            options: const MapOptions(
+              initialCenter: LatLng(7.8731, 80.7718),
+              initialZoom: 6.5,
+              interactionOptions: InteractionOptions(flags: InteractiveFlag.none),
             ),
-          ),
-          Positioned(
-            bottom: -50,
-            left: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.primary.withValues(alpha: 0.2),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.lakathabrew.gps_alarm',
+                subdomains: const ['a', 'b', 'c'],
               ),
-            ),
+              // Dark overlay to ensure the login card stands out clearly
+              Container(color: Colors.black.withValues(alpha: 0.6)),
+            ],
           ),
+          
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: GlassCard(
+                padding: const EdgeInsets.all(32),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.lock_outline, size: 60, color: AppColors.primary),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
+                      ),
+                      child: const Icon(Icons.satellite_alt, size: 48, color: AppColors.primary),
+                    ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Welcome Back',
+                      'GPS Alarm',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textLight,
+                        color: Colors.white,
+                        letterSpacing: 1.5,
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Sign in to track your destinations',
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 14),
                     ),
                     const SizedBox(height: 32),
                     TextField(
@@ -118,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: const TextStyle(color: AppColors.textLight),
                       decoration: InputDecoration(
                         hintText: 'Username',
-                        hintStyle: TextStyle(color: AppColors.textMuted),
+                        hintStyle: const TextStyle(color: AppColors.textMuted),
                         filled: true,
                         fillColor: Colors.black.withValues(alpha: 0.3),
                         border: OutlineInputBorder(
@@ -135,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: const TextStyle(color: AppColors.textLight),
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        hintStyle: TextStyle(color: AppColors.textMuted),
+                        hintStyle: const TextStyle(color: AppColors.textMuted),
                         filled: true,
                         fillColor: Colors.black.withValues(alpha: 0.3),
                         border: OutlineInputBorder(
@@ -163,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: _registerDemo,
                             child: const Text(
                               'Register / Auto-login',
-                              style: TextStyle(color: AppColors.accent),
+                              style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
